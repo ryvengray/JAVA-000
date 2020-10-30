@@ -7,14 +7,10 @@ import java.util.Map;
 
 public class NettyServerApplication {
 
-    /**
-     * text/html 类型的返回需要ico
-     */
-    public static final String FAVICON_ICO = "";
-
     public static void main(String[] args) throws Exception {
         Map<String, String> proxyMap = Maps.newHashMap();
         proxyMap.put("/", "http://localhost:8082");
+        proxyMap.put("/test", "http://localhost:8083");
 
         InboundSingleServer inboundSingleServer = new InboundSingleServer(8888, proxyMap);
         inboundSingleServer.run();
