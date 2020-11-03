@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -34,10 +35,16 @@ public class OkHttpOutboundHandler extends BaseHttpOutboundHandler {
 
         OkHttpClient httpClient = new OkHttpClient();
 
-        Request request = new Request.Builder().url(backendUrl)
-                .get().build();
+        Request.Builder requestBuilder = new Request.Builder().url(backendUrl)
+                .get();
+        Iterator<Map.Entry<String, String>> headerIterator = fullHttpRequest.headers().iteratorAsString();
+        // 将request的header信息添加到访问后台接口的request请求头中
+        while (headerIterator.hasNext()) {
+            Map.Entry<String, String> h = headerIterator.next();
+            requestBuilder.header(h.getKey(), h.getValue());
+        }
 
-        try (Response response = httpClient.newCall(request).execute()) {
+        try (Response response = httpClient.newCall(requestBuilder.build()).execute()) {
             ResponseBody body = response.body();
             assert body != null;
             if (response.isSuccessful()) {

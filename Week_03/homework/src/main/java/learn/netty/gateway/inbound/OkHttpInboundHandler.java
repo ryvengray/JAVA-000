@@ -3,6 +3,8 @@ package learn.netty.gateway.inbound;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.FullHttpRequest;
+import learn.netty.gateway.filter.HttpRequestFilter;
+import learn.netty.gateway.filter.impl.HeaderFilter;
 import learn.netty.gateway.outbound.BaseHttpOutboundHandler;
 import learn.netty.gateway.outbound.okhttp.OkHttpOutboundHandler;
 import org.slf4j.Logger;
@@ -20,6 +22,8 @@ public class OkHttpInboundHandler extends ChannelInboundHandlerAdapter {
     private final Map<String, String> proxyServerMap;
 
     private BaseHttpOutboundHandler httpOutboundHandler;
+
+    private HttpRequestFilter requestFilter = new HeaderFilter();
 
     public OkHttpInboundHandler(Map<String, String> proxyServerMap) {
         this.proxyServerMap = proxyServerMap;
@@ -39,6 +43,10 @@ public class OkHttpInboundHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         log.info("Channel read");
         FullHttpRequest request = (FullHttpRequest) msg;
+
+        // request filter
+        requestFilter.filter(request, ctx);
+
         this.httpOutboundHandler.handle(ctx, request);
     }
 
