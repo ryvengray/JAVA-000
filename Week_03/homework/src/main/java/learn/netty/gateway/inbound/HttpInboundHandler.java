@@ -54,6 +54,6 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error("Exception caught", cause);
-        super.exceptionCaught(ctx, cause);
+//        super.exceptionCaught(ctx, cause);
     }
 }

@@ -2,12 +2,14 @@ package learn.netty.gateway;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import org.junit.Test;
 
 import java.util.Arrays;
 
 public class ByteBufTest {
 
-    public static void main(String[] args) {
+    @Test
+    public void testByteBuf() {
         ByteBuf byteBuf = Unpooled.buffer(10);
         ByteBuf srcBuf = Unpooled.buffer(10);
         print(byteBuf);
