@@ -57,7 +57,7 @@ public class InboundSingleServer {
                     ChannelPipeline pipeline = ch.pipeline();
                     pipeline.addLast(new HttpServerCodec());
                     pipeline.addLast(new HttpObjectAggregator(1024 * 1024));
-                    pipeline.addLast(new OkHttpInboundHandler(proxyServer));
+                    pipeline.addLast(new HttpInboundHandler(proxyServer));
                 }
             });
 

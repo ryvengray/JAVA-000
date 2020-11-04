@@ -3,7 +3,6 @@ package learn.netty.gateway.outbound.okhttp;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
-import learn.netty.gateway.inbound.OkHttpInboundHandler;
 import learn.netty.gateway.outbound.BaseHttpOutboundHandler;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,7 +20,7 @@ import java.util.Map;
  */
 public class OkHttpOutboundHandler extends BaseHttpOutboundHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(OkHttpInboundHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(OkHttpOutboundHandler.class);
 
     public OkHttpOutboundHandler(Map<String, String> backendUrlMap) {
         super(backendUrlMap);

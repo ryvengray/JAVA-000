@@ -6,6 +6,7 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import learn.netty.gateway.filter.HttpRequestFilter;
 import learn.netty.gateway.filter.impl.HeaderFilter;
 import learn.netty.gateway.outbound.BaseHttpOutboundHandler;
+import learn.netty.gateway.outbound.netty.NettyOutboundHandler;
 import learn.netty.gateway.outbound.okhttp.OkHttpOutboundHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +16,9 @@ import java.util.Map;
 /**
  * @author gray
  */
-public class OkHttpInboundHandler extends ChannelInboundHandlerAdapter {
+public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(OkHttpInboundHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(HttpInboundHandler.class);
 
     private final Map<String, String> proxyServerMap;
 
@@ -25,13 +26,13 @@ public class OkHttpInboundHandler extends ChannelInboundHandlerAdapter {
 
     private HttpRequestFilter requestFilter = new HeaderFilter();
 
-    public OkHttpInboundHandler(Map<String, String> proxyServerMap) {
+    public HttpInboundHandler(Map<String, String> proxyServerMap) {
         this.proxyServerMap = proxyServerMap;
         this.afterConstruct();
     }
 
     private void afterConstruct() {
-        this.httpOutboundHandler = new OkHttpOutboundHandler(this.proxyServerMap);
+        this.httpOutboundHandler = new NettyOutboundHandler(this.proxyServerMap);
     }
 
     @Override
