@@ -67,7 +67,6 @@ public class NettyHttpClient {
                                             ByteBuf content = fullHttpResponse.content();
                                             content.writeBytes(buf);
 
-                                            fullHttpResponse.replace(Unpooled.wrappedBuffer(buf));
                                             log.info("Content: {}", buf.toString(CharsetUtil.UTF_8));
                                         } finally {
                                             log.info("Out context write: {}, response: {}", outCtx, fullHttpResponse);
