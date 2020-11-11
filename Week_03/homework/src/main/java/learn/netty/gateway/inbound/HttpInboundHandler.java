@@ -7,7 +7,7 @@ import learn.netty.gateway.filter.HttpRequestFilter;
 import learn.netty.gateway.filter.impl.HeaderFilter;
 import learn.netty.gateway.outbound.BaseHttpOutboundHandler;
 import learn.netty.gateway.outbound.netty.NettyOutboundHandler;
-import learn.netty.gateway.outbound.okhttp.OkHttpOutboundHandler;
+import learn.netty.gateway.routers.pojo.RouterProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,13 +20,13 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(HttpInboundHandler.class);
 
-    private final Map<String, String> proxyServerMap;
+    private final Map<String, RouterProperty> proxyServerMap;
 
     private BaseHttpOutboundHandler httpOutboundHandler;
 
     private HttpRequestFilter requestFilter = new HeaderFilter();
 
-    public HttpInboundHandler(Map<String, String> proxyServerMap) {
+    public HttpInboundHandler(Map<String, RouterProperty> proxyServerMap) {
         this.proxyServerMap = proxyServerMap;
         this.afterConstruct();
     }
@@ -42,7 +42,6 @@ public class HttpInboundHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("Channel read");
         FullHttpRequest request = (FullHttpRequest) msg;
 
         // request filter

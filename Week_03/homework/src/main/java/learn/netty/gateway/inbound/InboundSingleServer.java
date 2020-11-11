@@ -11,6 +11,7 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import learn.netty.gateway.routers.pojo.RouterProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,9 +28,9 @@ public class InboundSingleServer {
 
     private int port;
 
-    private Map<String, String> proxyServer;
+    private Map<String, RouterProperty> proxyServer;
 
-    public InboundSingleServer(int port, Map<String, String> proxyServer) {
+    public InboundSingleServer(int port, Map<String, RouterProperty> proxyServer) {
         this.port = port;
         this.proxyServer = proxyServer;
     }

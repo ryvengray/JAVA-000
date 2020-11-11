@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
+import learn.netty.gateway.routers.pojo.RouterProperty;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 public abstract class BaseHttpOutboundHandler {
 
-    protected final Map<String, String> backendUrlMap;
+    protected final Map<String, RouterProperty> backendUrlMap;
 
     private final Map<String, String> specialUrlMap = new HashMap<String, String>() {{
         put("/favicon.ico", "https://avatars1.githubusercontent.com/u/807508?s=48&v=4");
@@ -27,7 +28,7 @@ public abstract class BaseHttpOutboundHandler {
         this.backendUrlMap = Maps.newHashMap();
     }
 
-    protected BaseHttpOutboundHandler(Map<String, String> backendUrlMap) {
+    protected BaseHttpOutboundHandler(Map<String, RouterProperty> backendUrlMap) {
         this.backendUrlMap = backendUrlMap;
     }
 
@@ -47,7 +48,7 @@ public abstract class BaseHttpOutboundHandler {
         int sepIndex = originUrl.indexOf('/', 1);
         String contextPath = originUrl.substring(0, sepIndex == -1 ? originUrl.length() : sepIndex);
 
-        return backendUrlMap.getOrDefault(contextPath, "http://localhost") + originUrl;
+        return backendUrlMap.getOrDefault(contextPath, null) + originUrl;
     }
 
     private String specialUrl(String originUrl) {
