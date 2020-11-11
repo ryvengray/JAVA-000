@@ -1,4 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
-*.iml
+.idea/
+conc.iml
 target/
-geek-course (1) (learn.netty).iml
