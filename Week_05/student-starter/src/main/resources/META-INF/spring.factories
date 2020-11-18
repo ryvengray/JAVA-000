@@ -1,0 +1,2 @@
+# starter ×°Åä
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.example.springb.StudentConfig
