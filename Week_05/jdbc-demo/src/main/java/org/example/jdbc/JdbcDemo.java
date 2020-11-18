@@ -1,12 +1,10 @@
 package org.example.jdbc;
 
+import com.google.common.collect.Lists;
 import org.junit.Test;
 
-import javax.swing.plaf.nimbus.State;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.List;
 
 public class JdbcDemo {
 
@@ -21,6 +19,9 @@ public class JdbcDemo {
         System.out.println("Create table success");
     }
 
+    /**
+     * JDBC 简单增删改查
+     */
     @Test
     public void insertUpdateDelete() throws SQLException {
         Connection connection = Utils.getConnection();
@@ -48,6 +49,53 @@ public class JdbcDemo {
 
         // Select
         select(connection, username);
+    }
+
+    /**
+     * 添加 PreparedStatement
+     */
+    @Test
+    public void prepareInsert() throws SQLException {
+        List<User> users = Lists.newArrayList(
+                new User("1ZhSan", "A nice one"),
+                new User("1LiSi", "Not a pretty girl"),
+                new User("WanWu", "what a good boy"));
+        Connection connection = Utils.getConnection();
+        PreparedStatement pst = connection.prepareStatement("insert into t_user (username, password) values (?, ?)");
+
+        connection.setAutoCommit(false);
+
+        try {
+            users.forEach(user -> {
+                try {
+                    pst.setString(1, user.getUsername());
+                    pst.setString(2, user.getPassword());
+                    pst.addBatch();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+            });
+            pst.executeBatch();
+            connection.commit();
+            System.out.println("Commit");
+        } catch (SQLException e) {
+            System.out.println("异常 " + e.getMessage() + ", rollback");
+            connection.rollback();
+        }
+        selectAll(connection);
+    }
+
+    private void selectAll(Connection connection) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("select username, password from t_user");
+        ResultSet resultSet = statement.executeQuery();
+        int col = resultSet.getMetaData().getColumnCount();
+        while (resultSet.next()) {
+            for (int i = 1; i <= col; i++) {
+                System.out.print(resultSet.getString(i) + "\t");
+            }
+            System.out.println();
+        }
     }
 
     private void select(Connection connection, String username) throws SQLException {
