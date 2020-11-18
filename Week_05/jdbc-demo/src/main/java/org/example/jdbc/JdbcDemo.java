@@ -60,7 +60,7 @@ public class JdbcDemo {
                 new User("1ZhSan", "A nice one"),
                 new User("1LiSi", "Not a pretty girl"),
                 new User("WanWu", "what a good boy"));
-        Connection connection = Utils.getConnection();
+        Connection connection = PoolUtils.getConnection();
         PreparedStatement pst = connection.prepareStatement("insert into t_user (username, password) values (?, ?)");
 
         connection.setAutoCommit(false);
