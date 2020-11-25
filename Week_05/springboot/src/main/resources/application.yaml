@@ -1,0 +1,4 @@
+student:
+  enable: true
+  id: 10
+  name: Today
