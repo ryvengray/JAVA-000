@@ -1,0 +1,82 @@
+server:
+  port: 8081
+
+spring:
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+
+  datasource:
+    rw:
+      jdbc-url: jdbc:mysql://localhost:3306/master?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=GMT%2B8
+      username: root
+      password: root
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+    rd1:
+      jdbc-url: jdbc:mysql://localhost:3306/slaveone?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=GMT%2B8
+      username: root
+      password: root
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+    rd2:
+      jdbc-url: jdbc:mysql://localhost:3306/slavetwo?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=GMT%2B8
+      username: root
+      password: root
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+
+
+    # 连接池
+    hikari:
+      maximum-pool-size: 8
+      minimum-idle: 4
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 45000
+      auto-commit: true
+      pool-name: DyDataSourceHikariCP
+
+
+#snowflaker算法配置
+snow:
+  workerId: 0
+  dataCenterId: 1
+
+
+# shardingsphere配置
+#sharding:
+#  jdbc:
+#    datasource:
+#      names: master,slave
+#      #主数据库
+#      master:
+#        type: com.zaxxer.hikari.HikariDataSource
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        jdbc-url: jdbc:mysql://localhost:3306/master?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=GMT%2B8
+#        username: root
+#        password: root
+#
+#      # 从数据库
+#      slave:
+#        type: com.zaxxer.hikari.HikariDataSource
+#        driver-class-name: com.mysql.jdbc.Driver
+#        jdbc-url: jdbc:mysql://localhost:3306/slaveone?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=GMT%2B8
+#        username: root
+#        password: root
+#
+#    # 配置读写分离
+#    # 配置从库选择策略，提供轮询与随机，这里选择用轮询
+#    config:
+#      masterslave:
+#        load-balance-algorithm-type: round_robin
+#        name: ms
+#        master-data-source-name: master
+#        slave-data-source-names: slave
+#
+#  # 开启SQL显示，默认值: false，注意：仅配置读写分离时不会打印日志
+#      props:
+#        sql:
+#          show: true
+
+
